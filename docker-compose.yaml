@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_APPLICATION_NAME: try-with-me
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/try-with-me_db
+      SPRING_DATASOURCE_USERNAME: nikitaryabchikov
+      SPRING_DATASOURCE_PASSWORD: nik241104
+      SPRING_MAIL_HOST: smtp.gmail.com
+      SPRING_MAIL_PORT: 587
+      SPRING_MAIL_USERNAME: nryabchikov24@gmail.com
+      SPRING_MAIL_PASSWORD: vaiwwhdlppuerxle
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: "true"
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: "true"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: try-with-me_db
+      POSTGRES_USER: nikitaryabchikov
+      POSTGRES_PASSWORD: nik241104
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
