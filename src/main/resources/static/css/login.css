@@ -1,0 +1,49 @@
+/* Стили для контейнера формы */
+.container {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Стили для заголовка формы */
+h2 {
+    text-align: center;
+}
+
+/* Стили для меток */
+.label {
+    font-weight: bold;
+}
+
+/* Стили для текстовых полей */
+.input__data {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    box-sizing: border-box; /* чтобы padding не добавлялся к ширине */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Стили для кнопки входа */
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Стили для сообщений об ошибке и успешном выходе */
+form > div > div {
+    color: red;
+    margin-bottom: 10px;
+}
+

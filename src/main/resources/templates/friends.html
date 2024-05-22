@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/friends.css">
+    <title>Friends</title>
+</head>
+<body>
+<h1>Заявки в друзья</h1>
+<ul id="friendRequestList" class="profile-list">
+    <th:block th:each="friendRequest : ${friendRequests}">
+        <li class="profile-card">
+            <a th:href="@{/profile/{login}(login=${friendRequest.getSender().getLogin()})}" class="profile-link">
+                <div class="profile-info">
+                    <span th:text="${friendRequest.getSender().getName() + ' ' + friendRequest.getSender().getSurname()}"></span>
+                </div>
+                <img class="user-photo" th:if="${friendRequest.getSender().getPhotoFileName() != null}"
+                     th:src="@{/uploads/{filename}(filename=${friendRequest.getSender().getPhotoFileName()})}"
+                     alt="User Photo">
+            </a>
+        </li>
+    </th:block>
+</ul>
+
+<h1>Друзья</h1>
+<ul id="friendList" class="profile-list">
+    <th:block th:each="friend : ${friends}">
+        <li class="profile-card">
+            <a th:href="@{/profile/{login}(login=${friend.getFriend().getLogin()})}" class="profile-link">
+                <div class="profile-info">
+                    <span th:text="${friend.getFriend().getName() + ' ' + friend.getFriend().getSurname()}"></span>
+                </div>
+                <img class="user-photo" th:if="${friend.getFriend().getPhotoFileName() != null}"
+                     th:src="@{/uploads/{filename}(filename=${friend.getFriend().getPhotoFileName()})}"
+                     alt="User Photo">
+            </a>
+        </li>
+    </th:block>
+</ul>
+</body>
+</html>
+
+

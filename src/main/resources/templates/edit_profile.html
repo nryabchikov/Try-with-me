@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit profile</title>
+    <link rel="stylesheet" type="text/css" href="/edit_profile.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+</head>
+<body>
+<h2>Edit profile form</h2>
+<form id="editForm" method="POST" action="/profile/edit">
+
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" required><br>
+
+    <label for="surname">Surname:</label><br>
+    <input type="text" id="surname" name="surname" required><br>
+
+    <label for="patronymic">Patronymic:</label><br>
+    <input type="text" id="patronymic" name="patronymic"><br>
+
+    <label for="address">Address:</label><br>
+    <input type="text" id="address" name="address"><br>
+
+    <label for="dateOfBirth">Date of Birth:</label><br>
+<!--    <input type="date" id="dateOfBirth" name="dateOfBirth" required><br>-->
+
+    <input type="text" id="dateOfBirth" name="dateOfBirth">
+
+
+    <input type="submit" value="Save">
+</form>
+
+<script>
+    flatpickr("#dateOfBirth", {
+        dateFormat: "Y-m-d",
+        altInput: true,
+        altFormat: "F j, Y",
+        placeholder: "Select Date",
+    });
+</script>
+
+
+</body>
+</html>
