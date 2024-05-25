@@ -1,49 +1,118 @@
-/* Стили для контейнера формы */
-.container {
-    width: 300px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-}
-
-/* Стили для заголовка формы */
-h2 {
-    text-align: center;
-}
-
-/* Стили для меток */
-.label {
-    font-weight: bold;
-}
-
-/* Стили для текстовых полей */
-.input__data {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    box-sizing: border-box; /* чтобы padding не добавлялся к ширине */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Стили для кнопки входа */
-input[type="submit"] {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
+* {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background: linear-gradient(to right, #4a76a8, #4a76a8);
+    height: 95vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+h2 {
+    padding-bottom: 10px;
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 400px;
+}
+
+.login-container h2 {
+    margin-bottom: 15px;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.login-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-label {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    color: white;
+    margin-bottom: -20px; /* Расстояние между меткой и полем ввода */
+    margin-left: 4px;
+}
+
+.login-label i {
+    margin-right: 10px;
+}
+
+.login-input {
+    width: 350px;
+    padding: 8px;
+    margin: 12px 0; /* Расстояние между полями ввода */
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 1rem;
 }
 
-/* Стили для сообщений об ошибке и успешном выходе */
-form > div > div {
-    color: red;
+.show-password-checkbox {
+    margin: 10px 0;
+    color: white;
+}
+
+.login-button {
+    background: white;
+    color: #4a76a8;
+    border: none;
+    padding: 10px 40px; /* Увеличиваем ширину кнопки */
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.login-button:hover {
+    background: #4a76a8;
+    color: white;
+}
+
+.additional-links {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.additional-links span {
+    margin: 5px 0;
+}
+
+.additional-links a {
+    color: white;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.additional-links a:hover {
+    color: #4a76a8;
+    text-decoration: none;
+}
+
+.error-message {
+    color: #ff4d4d;
     margin-bottom: 10px;
 }
 
+.logout-message {
+    color: #4dff4d;
+    margin-bottom: 10px;
+}

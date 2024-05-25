@@ -4,33 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/login.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
     <title>Login</title>
 </head>
 <body>
-<h2>Login Form</h2>
-
-<div class="container">
-    <form id="loginForm" th:method="post" th:action="@{/login}">
-        <div>
-            <div th:if="${param.error}">
-                Invalid username or password.
+<div class="login-container">
+    <h2>Login to Your Account</h2>
+    <div class="login-form-container">
+        <form id="loginForm" th:method="post" th:action="@{/login}">
+            <div>
+                <div class="error-message" th:if="${param.error}">
+                    Invalid username or password.
+                </div>
+                <div class="logout-message" th:if="${param.logout}">
+                    You have been logged out.
+                </div>
+                <label for="login" class="login-label"><i class="fas fa-user"></i> Login:</label><br>
+                <input type="text" class="login-input" id="login" name="username" required><br>
+                <label for="password" class="login-label"><i class="fas fa-lock"></i> Password:</label><br>
+                <input type="password" class="login-input" id="password" name="password" required><br>
+                <input type="checkbox" class="show-password-checkbox" onclick="showPassword()"> Show Password<br><br>
+                <input type="submit" class="login-button" value="Login">
             </div>
-            <div th:if="${param.logout}">
-                You have been logged out.
-            </div>
-            <label for="login" class="label">Username:</label><br>
-            <input type="text" class="input__data" id="login" name="username" required><br>
-            <label for="password" class="label">Password:</label><br>
-            <input type="password" class="input__data" id="password" name="password" required><br>
-            <input type="submit" value="Login">
+        </form>
+        <div class="additional-links">
+            <span>Don't have an account? <a href="/" th:href="@{/register}">Register here</a></span><br>
+            <span>Forgot your password? <a href="/" th:href="@{/forgotPassword}">Reset it here</a></span>
         </div>
-    </form>
-    <span>Register <a href="/"
-                      th:href="@{/register}">Register</a></span>
-    <span>Forgot Password? <a href="/"
-                              th:href="@{/forgotPassword}">
-                                Forgot Password</a></span>
+    </div>
 </div>
 
+<script>
+    function showPassword() {
+        var passwordInput = document.getElementById("password");
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+        } else {
+            passwordInput.type = "password";
+        }
+    }
+</script>
 </body>
 </html>
+
