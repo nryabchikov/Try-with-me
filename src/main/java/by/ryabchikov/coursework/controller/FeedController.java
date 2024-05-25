@@ -1,5 +1,6 @@
 package by.ryabchikov.coursework.controller;
 
+import by.ryabchikov.coursework.config.MyUserDetails;
 import by.ryabchikov.coursework.dto.user.AnotherUserProfile;
 import by.ryabchikov.coursework.mapper.UserMapper;
 import by.ryabchikov.coursework.model.user.User;
@@ -7,6 +8,7 @@ import by.ryabchikov.coursework.service.FriendRequestService;
 import by.ryabchikov.coursework.service.FriendService;
 import by.ryabchikov.coursework.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,12 +27,8 @@ public class FeedController {
     private final UserMapper userMapper;
     private final FriendRequestService friendRequestService;
     private final FriendService friendService;
-
-    @GetMapping("/main")
-    public String getFeedPage() {
-        return "feed";
-    }
-
+    private final SessionRegistry sessionRegistry;
+    
     @GetMapping("/users")
     public String getAllUsers(Model model) {
         List<User> users = userService.getAllUsers();
@@ -70,6 +69,22 @@ public class FeedController {
         model.addAttribute("hasFriendRequest", hasFriendRequest);
         model.addAttribute("currentUser", currentUser);
         model.addAttribute("isFriend", isFriend);
+
+
+
+
+
+        List<Object> principals = sessionRegistry.getAllPrincipals();
+        List<String> usersNamesList = new ArrayList<>();
+        for (Object principal: principals) {
+            if (principal instanceof MyUserDetails) {
+                usersNamesList.add(((MyUserDetails) principal).getUser().getLogin());
+            }
+        }
+
+        model.addAttribute("activeUsers", usersNamesList);
+        usersNamesList.clear();
+
         return "profile";
     }
 

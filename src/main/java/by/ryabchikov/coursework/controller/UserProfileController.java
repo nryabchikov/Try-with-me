@@ -1,12 +1,12 @@
 package by.ryabchikov.coursework.controller;
 
+import by.ryabchikov.coursework.config.MyUserDetails;
 import by.ryabchikov.coursework.dto.user.UserProfileDTO;
 import by.ryabchikov.coursework.model.user.User;
 import by.ryabchikov.coursework.repository.UserRepository;
 import by.ryabchikov.coursework.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -21,12 +21,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
 public class UserProfileController {
     private final UserService userService;
     private final UserRepository userRepository;
+    private final SessionRegistry sessionRegistry;
 
     @GetMapping("/profile/edit")
     public String getProfileEditPage() {
@@ -50,6 +53,17 @@ public class UserProfileController {
         User user = userService.getCurrentUser();
         model.addAttribute("user", user);
         model.addAttribute("currentUser", user);
+
+        List<Object> principals = sessionRegistry.getAllPrincipals();
+        List<String> usersNamesList = new ArrayList<>();
+        for (Object principal: principals) {
+            if (principal instanceof MyUserDetails) {
+                usersNamesList.add(((MyUserDetails) principal).getUser().getLogin());
+            }
+        }
+
+        model.addAttribute("activeUsers", usersNamesList);
+
         return "profile";
     }
 
@@ -69,32 +83,17 @@ public class UserProfileController {
     //глянуть
     @PostMapping("/profile/uploadPhoto")
     public String handleFileUpload(@RequestParam("file") MultipartFile file) {
-        // Проверить, что файл существует и не пустой
-        if (file.isEmpty()) {
-            // Обработать ошибку, если файл пустой
-        }
         User user = userService.getCurrentUser();
         try {
-//            // Сохранить файл на сервере, например, в папке uploads
-//            byte[] bytes = file.getBytes();
-//            Path path = Paths.get("uploads/" + file.getOriginalFilename());
-//            user.setPhotoFileName("/Users/nikitaryabchikov/Desktop/" + file.getOriginalFilename());
-//            userRepository.save(user);
-//            Files.write(path, bytes);
-
-            String uploadsDir = "/uploads/";
-            String currentDir = System.getProperty("user.dir"); // Получаем текущую директорию проекта
-            String absolutePath = currentDir + "/src/main/resources/static" + uploadsDir;
-
-            // Создать директорию, если её еще нет
+            String uploadsDir = "/static/uploads/";
+            String currentDir = System.getProperty("user.dir");
+            String absolutePath = currentDir + "/src/main/resources" + uploadsDir;
             Files.createDirectories(Paths.get(absolutePath));
-
-            // Сохранить файл на сервере в папке uploads
             byte[] bytes = file.getBytes();
             String filename = StringUtils.cleanPath(file.getOriginalFilename()); // Получаем имя файла без спецсимволов
             Path path = Paths.get(absolutePath + filename);
-            user.setPhotoFileName(filename); // Сохраняем путь к файлу в объект пользователя
-            userRepository.save(user); // Сохраняем пользователя в базе данных
+            user.setPhotoFileName(filename);
+            userRepository.save(user);
             Files.write(path, bytes);
         } catch (IOException e) {
             e.printStackTrace();
