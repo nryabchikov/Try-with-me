@@ -1,42 +1,86 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <link rel="stylesheet" href="/css/registration.css">-->
+<!--    <title>Registration</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h2>Registration Form</h2>-->
+<!--<div class="container">-->
+<!--    <form th:method="post" th:action="@{/register}" th:object="${user}">-->
+
+<!--        <label for="login">Login:</label><br>-->
+<!--        <input type="text" th:field="*{login}" id="login" name="login" required>-->
+<!--        <div style="color: red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Login error</div>-->
+<!--        <br>-->
+
+<!--        <label for="email">Email:</label><br>-->
+<!--        <input type="email" th:field="*{email}" id="email" name="email" required>-->
+<!--        <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>-->
+<!--        <br>-->
+
+<!--        <label for="password">Password:</label><br>-->
+<!--        <input type="password" th:field="*{password}" id="password" name="password" required>-->
+<!--        <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>-->
+<!--        <br>-->
+
+<!--        <label for="confirmPassword">Confirm Password:</label><br>-->
+<!--        <input type="password" th:field="*{confirmPassword}" id="confirmPassword" name="confirmPassword" required>-->
+<!--        <div style="color: red" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">-->
+<!--            Confirm password error-->
+<!--        </div>-->
+<!--        <br>-->
+
+<!--        <input type="submit" value="Register">-->
+
+<!--    </form>-->
+<!--</div>-->
+
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/registration.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
     <title>Registration</title>
 </head>
 <body>
-<h2>Registration Form</h2>
 <div class="container">
+    <h2>Registration Form</h2>
     <form th:method="post" th:action="@{/register}" th:object="${user}">
-
-        <label for="login">Login:</label><br>
-        <input type="text" th:field="*{login}" id="login" name="login" required>
-        <div style="color: red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Login error</div>
+        <label for="login" class="label"><i class="fas fa-user icon"></i> Login:</label><br>
+        <input type="text" th:field="*{login}" id="login" class="input" required>
+        <div class="error-message" th:if="${#fields.hasErrors('login')}" th:errors="*{login}">Login error</div>
         <br>
 
-        <label for="email">Email:</label><br>
-        <input type="email" th:field="*{email}" id="email" name="email" required>
-        <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+        <label for="email" class="label"><i class="fas fa-envelope icon"></i> Email:</label><br>
+        <input type="email" th:field="*{email}" id="email" class="input" required>
+        <div class="error-message" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
         <br>
 
-        <label for="password">Password:</label><br>
-        <input type="password" th:field="*{password}" id="password" name="password" required>
-        <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
+        <label for="password" class="label"><i class="fas fa-lock icon"></i> Password:</label><br>
+        <input type="password" th:field="*{password}" id="password" class="input" required>
+        <div class="error-message" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
         <br>
 
-        <label for="confirmPassword">Confirm Password:</label><br>
-        <input type="password" th:field="*{confirmPassword}" id="confirmPassword" name="confirmPassword" required>
-        <div style="color: red" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">
+        <label for="confirmPassword" class="label"><i class="fas fa-lock icon"></i> Confirm Password:</label><br>
+        <input type="password" th:field="*{confirmPassword}" id="confirmPassword" class="input" required>
+        <div class="error-message" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">
             Confirm password error
         </div>
         <br>
 
-        <input type="submit" value="Register">
-
+        <input type="submit" class="button" value="Register">
     </form>
+    <div class="additional-links">
+        <span>Already have an account? <a href="/" th:href="@{/login}">Login here</a></span>
+    </div>
 </div>
-
 </body>
 </html>
