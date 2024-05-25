@@ -3,70 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <title>Profile Page</title>
-    <link rel="stylesheet" type="text/css" href="/profile.css">
+    <link rel="stylesheet" type="text/css" href="/css/profile.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="container">
-    <h1>User Profile</h1>
-    <img class="user-photo" th:if="${user.getPhotoFileName() != null}"
-         th:src="@{/uploads/{filename}(filename=${user.getPhotoFileName()})}"
-         alt="User Photo">
+    <header>
+        <h1>User Profile</h1>
+        <div class="user-photo">
+            <img th:if="${user.getPhotoFileName() != null}"
+                 th:src="@{/uploads/{filename}(filename=${user.getPhotoFileName()})}"
+                 alt="User Photo">
+        </div>
+    </header>
+    <main>
+        <section class="user-info">
+            <p>First Name: <span th:text="${user.getName()}">[First Name]</span></p>
+            <p>Last Name: <span th:text="${user.getSurname()}">[Last Name]</span></p>
 
-    <p>First Name: <span th:text="${user.getName()}">[First Name]</span></p>
-    <p>Last Name: <span th:text="${user.getSurname()}">[Last Name]</span></p>
-    <th:block th:if="${currentUser != null}">
-        <th:block th:if="${currentUser.login == user.login}">
-            <p>Patronymic: <span th:text="${user.getPatronymic()}">[Patronymic]</span></p>
-            <p>Address: <span th:text="${user.getAddress()}">[Address]</span></p>
-            <p>Date of Birth:
-                <span th:if="${user.getDateOfBirthday() != null}"
-                      th:text="${#temporals.format(user.getDateOfBirthday(), 'yyyy-MM-dd')}">
-                </span>
-                <span th:unless="${user.getDateOfBirthday() != null}">Not specified</span>
+            <p>Login: <span th:text="${user.getLogin()}">[Login]</span>
+                <span th:if="${#lists.contains(activeUsers, user.getLogin())}" class="status-indicator status-online"></span>
+                <span th:unless="${#lists.contains(activeUsers, user.getLogin())}" class="status-indicator status-offline"></span>
             </p>
-            <form action="/profile/uploadPhoto" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" accept="image/*">
-                <button type="submit">Upload Photo</button>
-            </form>
-            <a href="/logout">Log out</a>
-        </th:block>
-    </th:block>
 
-    <th:block th:unless="${currentUser.login == user.login}">
-        <th:block th:unless="${isFriend || isSendRequestToUser}">
-            <th:block th:if="${hasFriendRequest}">
-                <!-- Отображаем кнопку для принятия заявки в друзья -->
-                <form action="/acceptFriendRequest" method="post">
-                    <input type="hidden" name="requestId" th:value="${requestId}">
-                    <button type="submit">Accept friend request</button>
-                </form>
-                <form action="/rejectFriendRequest" method="post">
-                    <input type="hidden" name="requestId" th:value="${requestId}">
-                    <button type="submit">Reject friend request</button>
-                </form>
+            <th:block th:if="${currentUser != null}">
+                <th:block th:if="${currentUser.login == user.login}">
+                    <p>Patronymic: <span th:text="${user.getPatronymic()}">[Patronymic]</span></p>
+                    <p>Address: <span th:text="${user.getAddress()}">[Address]</span></p>
+                    <p>Date of Birth:
+                        <span th:if="${user.getDateOfBirthday() != null}"
+                              th:text="${#temporals.format(user.getDateOfBirthday(), 'yyyy-MM-dd')}">
+                        </span>
+                        <span th:unless="${user.getDateOfBirthday() != null}">Not specified</span>
+                    </p>
+                </th:block>
             </th:block>
-            <th:block th:unless="${hasFriendRequest}">
-                <form th:method="get" th:action="@{/addFriend/{userLogin}(userLogin=${user.login})}">
-                    <button type="submit">Add friend</button>
-                </form>
+            <th:block th:unless="${currentUser.login == user.login}">
+                <th:block th:unless="${isFriend || isSendRequestToUser}">
+                    <th:block th:if="${hasFriendRequest}">
+                        <!-- Display button to accept/reject friend request -->
+                        <form action="/acceptFriendRequest" method="post">
+                            <input type="hidden" name="requestId" th:value="${requestId}">
+                            <button type="submit">Accept friend request</button>
+                        </form>
+                        <br>
+                        <form action="/rejectFriendRequest" method="post">
+                            <input type="hidden" name="requestId" th:value="${requestId}">
+                            <button type="submit">Reject friend request</button>
+                        </form>
+                    </th:block>
+                    <th:block th:unless="${hasFriendRequest}">
+                        <form th:method="get" th:action="@{/addFriend/{userLogin}(userLogin=${user.login})}">
+                            <button type="submit">Add friend</button>
+                        </form>
+                    </th:block>
+                </th:block>
+                <th:block th:if="${isFriend}">
+                    <p>In your friends</p>
+                </th:block>
+                <th:block th:if="${isSendRequestToUser}">
+                    <p>You have already sent a friend request</p>
+                </th:block>
             </th:block>
-        </th:block>
-        <th:block th:if="${isFriend}">
-            <p>In your friends</p>
-        </th:block>
-        <th:block th:if="${isSendRequestToUser}">
-            <p>You have already sent a friend request</p>
-        </th:block>
-    </th:block>
+        </section>
+    </main>
+    <nav class="left-toolbar">
+        <a href="/profile"><i class="fas fa-home"></i> Home</a>
+        <a href="/friends"><i class="fas fa-user-friends"></i> Friends</a>
+        <a href="/users"><i class="fas fa-users"></i> Users</a>
+        <a href="/chat"><i class="fas fa-comments"></i> Chat</a>
+        <a href="/profile/edit"><i class="fas fa-cog"></i> Settings</a>
+        <a href="/logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
+    </nav>
 </div>
-
-<div class="left-toolbar">
-    <a href="/profile">Home</a><br>
-    <a href="/friends">Friends</a><br>
-    <a href="/users">Users</a><br>
-    <a href="/chat">Chat</a><br>
-    <a href="/profile/edit">Settings</a><br>
-</div>
-
 </body>
 </html>
+
+
