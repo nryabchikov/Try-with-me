@@ -197,6 +197,7 @@ function onMessageReceived(payload) {
     } else {
         messageElement.classList.add('chat-message');
 
+       // var avatarElement = document.createElement('img');
         var avatarElement = document.createElement('img');
         avatarElement.classList.add('avatar-image');
         //avatarElement.src = '/uploads/' + user.avatar; // Замените на путь к вашим аватарам
@@ -218,16 +219,6 @@ function onMessageReceived(payload) {
 
     messageArea.appendChild(messageElement);
     messageArea.scrollTop = messageArea.scrollHeight;
-}
-
-
-function getAvatarColor(messageSender) {
-    var hash = 0;
-    for (var i = 0; i < messageSender.length; i++) {
-        hash = 31 * hash + messageSender.charCodeAt(i);
-    }
-    var index = Math.abs(hash % colors.length);
-    return colors[index];
 }
 
 messageForm.addEventListener('submit', sendMessage, true)
