@@ -1,89 +1,33 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--  <meta charset="UTF-8">-->
-<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
-<!--  <title>All Users</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<h1>All Users</h1>-->
-
-<!--&lt;!&ndash; Поле для поиска пользователей &ndash;&gt;-->
-<!--<form id="searchForm">-->
-<!--  <label for="searchQuery">Search Users:</label>-->
-<!--  <input type="text" id="searchQuery" name="query">-->
-<!--  <button type="button" onclick="searchUsers()">Search</button>-->
-<!--</form>-->
-
-<!--&lt;!&ndash; Список всех пользователей &ndash;&gt;-->
-<!--<ul id="userList">-->
-<!--  <th:block th:each="user : ${users}">-->
-<!--    <li>-->
-<!--      <a th:href="@{/profile/{login}(login=${user.login})}" th:text="${user.name + ' ' + user.surname}"></a>-->
-<!--    </li>-->
-<!--  </th:block>-->
-<!--</ul>-->
-
-<!--<script>-->
-<!--  function searchUsers() {-->
-<!--    var query = document.getElementById('searchQuery').value;-->
-<!--    var xhr = new XMLHttpRequest();-->
-<!--    xhr.open('GET', '/search?query=' + query, true);-->
-<!--    xhr.onload = function () {-->
-<!--      if (xhr.status >= 200 && xhr.status < 400) {-->
-<!--        var users = JSON.parse(xhr.responseText);-->
-<!--        var userList = document.getElementById('userList');-->
-<!--        userList.innerHTML = ''; // Очищаем список перед добавлением новых пользователей-->
-<!--        users.forEach(function (user) {-->
-<!--          var li = document.createElement('li');-->
-<!--          li.innerHTML = '<a href="/profile/' + user.login + '">' + user.name + ' ' + user.surname + '</a>';-->
-<!--          userList.appendChild(li);-->
-<!--        });-->
-<!--      } else {-->
-<!--        console.error('Request failed with status', xhr.status);-->
-<!--      }-->
-<!--    };-->
-<!--    xhr.onerror = function () {-->
-<!--      console.error('Request failed');-->
-<!--    };-->
-<!--    xhr.send();-->
-<!--  }-->
-<!--</script>-->
-
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" type="text/css" href="/friends.css">
+  <link rel="stylesheet" type="text/css" href="/css/users.css">
   <title>All Users</title>
 </head>
 <body>
 <h1>All Users</h1>
 
-<!-- Поле для поиска пользователей -->
+<!-- Search form for users -->
 <form id="searchForm" class="search-form">
-  <label for="searchQuery">Search Users:</label>
+  <label for="searchQuery" class="search-label">Search user:</label>
   <input type="text" id="searchQuery" name="query" class="search-input">
   <button type="button" onclick="searchUsers()" class="search-button">Search</button>
 </form>
 
-<!-- Список всех пользователей -->
+<!-- List of all users -->
 <ul id="userList" class="profile-list">
   <th:block th:each="user : ${users}">
     <li class="profile-card">
       <a th:href="@{/profile/{login}(login=${user.login})}" class="profile-link">
-        <div class="profile-info" th:text="${user.name} + ' ' + ${user.surname}" th:unless="${user.name == null && user.surname == null}">
+        <div class="profile-info">
+          <span th:text="${user.name} + ' ' + ${user.surname}" th:unless="${user.name == null && user.surname == null}"></span>
           <span th:text="${user.login}" th:if="${user.name == null && user.surname == null}"></span>
         </div>
         <img class="user-photo" th:if="${user.photoFileName != null}"
              th:src="@{/uploads/{filename}(filename=${user.photoFileName})}"
              alt="User Photo">
-<!--        <div class="user-photo-placeholder" th:if="${user.photoFileName == null}"-->
-<!--             th:style="'background-color: ' + getAvatarColor('${user.login}')" th:text="${user.login[0]}"></div>-->
       </a>
     </li>
   </th:block>
@@ -98,14 +42,12 @@
       if (xhr.status >= 200 && xhr.status < 400) {
         var users = JSON.parse(xhr.responseText);
         var userList = document.getElementById('userList');
-        userList.innerHTML = ''; // Очищаем список перед добавлением новых пользователей
+        userList.innerHTML = ''; // Clear the list before adding new users
         users.forEach(function (user) {
           var li = document.createElement('li');
           li.className = 'profile-card';
-          var userInfo = user.name ? user.name + ' ' + user.surname : user.login;
-          var userPhoto = user.photoFileName ?
-                  `<img class="user-photo" src="/uploads/${user.photoFileName}" alt="User Photo">` :
-                  `<div class="user-photo-placeholder" style="background-color: ${getAvatarColor(user.login)}">${user.login.charAt(0)}</div>`;
+          var userInfo = user.name && user.surname ? user.name + ' ' + user.surname : user.login;
+          var userPhoto = user.photoFileName ? `<img class="user-photo" src="/uploads/${user.photoFileName}" alt="User Photo">` : '';
           li.innerHTML = `
             <a href="/profile/${user.login}" class="profile-link">
               <div class="profile-info">${userInfo}</div>
@@ -123,20 +65,10 @@
     };
     xhr.send();
   }
-
-  function getAvatarColor(login) {
-    const colors = ['#2196F3', '#32c787', '#00BCD4', '#ff5652', '#ffc107', '#ff85af', '#FF9800', '#39bbb0'];
-    let hash = 0;
-    for (let i = 0; i < login.length; i++) {
-      hash = login.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    const index = Math.abs(hash % colors.length);
-    return colors[index];
-  }
 </script>
-
 </body>
 </html>
+
 
 
 
