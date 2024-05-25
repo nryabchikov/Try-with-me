@@ -3,36 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit profile</title>
-    <link rel="stylesheet" type="text/css" href="/edit_profile.css">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" type="text/css" href="/css/edit_profile.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
 </head>
 <body>
-<h2>Edit profile form</h2>
-<form id="editForm" method="POST" action="/profile/edit">
+<div class="container">
+    <h2>Edit Profile Form</h2>
+    <form id="editForm" method="POST" action="/profile/edit">
+        <label for="name" class="label"><i class="fas fa-user"></i> Name:</label><br>
+        <input type="text" id="name" name="name" class="input" required><br>
 
-    <label for="name">Name:</label><br>
-    <input type="text" id="name" name="name" required><br>
+        <label for="surname" class="label"><i class="fas fa-user"></i> Surname:</label><br>
+        <input type="text" id="surname" name="surname" class="input" required><br>
 
-    <label for="surname">Surname:</label><br>
-    <input type="text" id="surname" name="surname" required><br>
+        <label for="patronymic" class="label"><i class="fas fa-user"></i> Patronymic:</label><br>
+        <input type="text" id="patronymic" name="patronymic" class="input"><br>
 
-    <label for="patronymic">Patronymic:</label><br>
-    <input type="text" id="patronymic" name="patronymic"><br>
+        <label for="address" class="label"><i class="fas fa-map-marker-alt"></i> Address:</label><br>
+        <input type="text" id="address" name="address" class="input"><br>
 
-    <label for="address">Address:</label><br>
-    <input type="text" id="address" name="address"><br>
+        <label for="dateOfBirth" class="label"><i class="fas fa-calendar"></i> Date of Birth:</label><br>
+        <input type="text" id="dateOfBirth" name="dateOfBirth" class="input"><br>
 
-    <label for="dateOfBirth">Date of Birth:</label><br>
-<!--    <input type="date" id="dateOfBirth" name="dateOfBirth" required><br>-->
+        <input type="submit" value="Save" class="button">
+    </form>
 
-    <input type="text" id="dateOfBirth" name="dateOfBirth">
-
-
-    <input type="submit" value="Save">
-</form>
+    <form action="/profile/uploadPhoto" method="post" enctype="multipart/form-data">
+        <label for="file" class="upload-label"><i class="fas fa-upload"></i> Upload Photo</label>
+        <input type="file" id="file" name="file" accept="image/*" class="upload-input">
+        <button type="submit" class="upload-button">Upload</button>
+    </form>
+</div>
 
 <script>
     flatpickr("#dateOfBirth", {
@@ -42,7 +46,5 @@
         placeholder: "Select Date",
     });
 </script>
-
-
 </body>
 </html>
